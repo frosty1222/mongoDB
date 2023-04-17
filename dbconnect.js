@@ -1,13 +1,15 @@
-const mongoose = require('mongoose');
-async function connect(){
-     try{
-     await mongoose.connect('mongodb://127.0.0.1:27017/angularRestApi',{
-         useNewUrlParser: true,
-         useUnifiedTopology:true
-     })
-     console.log('Connect successfully!!!');
-     }catch(error){
-       console.log(error);
-     }
+const { Sequelize } = require('sequelize');
+
+async function connect() {
+  const sequelize = new Sequelize('mysql://username:My$tr0ngP@ssw0rd@localhost:3306/node_');
+  try {
+    await sequelize.authenticate();
+    console.log('Connection to database has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+  return sequelize;
 }
-module.exports = {connect}
+
+module.exports = { connect };
+
