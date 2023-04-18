@@ -29,6 +29,6 @@ app.use(cors({
 }));
 app.use(express.static('uploads'));
 route(app);
-app.listen(3001, () => {
-    console.log(`Server Started at ${3001}`)
+app.listen(3002, () => {
+    console.log(`Server Started at ${3002}`)
 })
