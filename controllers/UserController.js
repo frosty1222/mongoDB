@@ -1,5 +1,7 @@
 const { send } = require('express/lib/response');
 const setup = require('../models/User');
+const moment = require('moment');
+const Joi = require('joi');
 class UserController{
     async index(req,res){
         const User = await setup();
@@ -7,27 +9,44 @@ class UserController{
         res.json({"message":users});
     }
     async addUser(req,res){
-        var today = new Date();
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var yyyy = today.getFullYear();
-        today = yyyy + '/' + mm + '/' + dd;
-        const { name, email, password,createdAt,updatedAt} = req.body;
-        req.createdAt = today;
-        req.updatedAt = '';
-        const User = await setup();
-        const build = User.build({
-            name:name,
-            email:email,
-            password:password,
-            createdAt:createdAt,
-            updatedAt:updatedAt
+        const schema = Joi.object({
+            name: Joi.string().required(),
+            email: Joi.string().email().required(),
+            password: Joi.string().required(),
+            createdAt: Joi.date().iso().required(),
+            updatedAt: Joi.date().iso().optional().allow(null)
         });
-        if(build){
-            return res.json({
-                message:'you have added a user successfully'
-            })
+        
+        // Validate and sanitize the request body
+        let date = new Date();
+        const isoDate = moment(date).toISOString();
+        req.body.createdAt = isoDate;
+        const { error, value } = schema.validate(req.body, { stripUnknown: true });
+        
+        if (error) {
+            console.log('Error while validating request body', error);
+            return res.status(400).json({ error: error.details[0].message });
         }
-    }
+        
+        // Create a new user using the validated and sanitized request body
+        const User = await setup();
+        const build = User.build(
+            {
+                name:req.body.name,
+                email:req.body.email,
+                password:req.body.password,
+                createdAt:isoDate,
+                updatedAt:isoDate
+            }
+        );
+        
+        build.save().then((savedUser) => {
+            return res.json({
+                message: 'You have added a user successfully'
+            });
+        }).catch((error) => {
+            console.log('Error while saving user', error);
+        });
+    }    
 }
 module.exports = new UserController();

@@ -18,11 +18,11 @@ async function setup() {
         allowNull: false
       },
       createdAt:{
-        type: DataTypes.STRING,
-        allowNull: false
+        type:DataTypes.DATE,
+        allowNull: true
       },
       updatedAt:{
-        type: DataTypes.STRING,
+        type: DataTypes.DATE,
         allowNull: true
       }
     });
