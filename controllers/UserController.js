@@ -47,6 +47,22 @@ class UserController{
         }).catch((error) => {
             console.log('Error while saving user', error);
         });
-    }    
+    }
+    // find user by id 
+    async findOne(req,res){
+        const {id} = req.params;
+        const User = await setup();
+        User.findOne({ where: { id: id }})
+        .then((user) => {
+            if (!user) {
+            console.log('User not found!');
+            } else {
+              res.json({"data":user})
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    } 
 }
 module.exports = new UserController();
