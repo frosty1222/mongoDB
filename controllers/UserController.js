@@ -36,7 +36,7 @@ class UserController{
                 email:req.body.email,
                 password:req.body.password,
                 createdAt:isoDate,
-                updatedAt:isoDate
+                updatedAt:null
             }
         );
         
@@ -63,6 +63,31 @@ class UserController{
         .catch((error) => {
             console.log(error);
         });
-    } 
+    }
+    async updateUser(req,res){
+      const {id} = req.params;
+      const User = await setup();
+      let date = new Date();
+      const isoDate = moment(date).toISOString();
+      const {name,email,password,createdAt,updatedAt} = req.body;
+      console.log("hello")
+        User.update({
+          name:name,
+          email:email,
+          password:password,
+          createdAt:null,
+          updatedAt:isoDate
+        },{
+            where: {
+            id: id
+            }
+        }).then(() => {
+           return res.json({
+            'message':"Record updated successfully!"
+           })
+        }).catch((error) => {
+            console.error('Error updating record: ', error);
+        });
+    }
 }
 module.exports = new UserController();

@@ -4,4 +4,5 @@ const user_controller = require('../controllers/UserController');
 router.get('/user-index',user_controller.index);
 router.post('/user-add',user_controller.addUser);
 router.get('/user-by-id/:id',user_controller.findOne);
+router.put('/user-update/:id',user_controller.updateUser);
 module.exports = router;
