@@ -89,5 +89,20 @@ class UserController{
             console.error('Error updating record: ', error);
         });
     }
+   async deleteUser(req,res){
+        const User = await setup();
+        const {id} = req.params;
+        User.destroy({
+            where: {
+              id:id
+            }
+        }).then(()=>{
+            res.json({
+                'message':"delete user successfully"
+            })
+        }).catch(err=>{
+            console.log(err)
+        })
+    }
 }
 module.exports = new UserController();
