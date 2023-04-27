@@ -89,5 +89,15 @@ class UserController{
             console.error('Error updating record: ', error);
         });
     }
+    // login method
+    async login(req,res){
+        const{email,pasword} = req.body;
+        const User = await setup();
+    }
+    // sign up method
+    async signup(req,res){
+        const{name,email,password,createdAt,updatedAt} = req.body;
+        
+    }
 }
 module.exports = new UserController();
