@@ -97,7 +97,21 @@ class UserController{
     // sign up method
     async signup(req,res){
         const{name,email,password,createdAt,updatedAt} = req.body;
-        
+    }
+   async deleteUser(req,res){
+        const User = await setup();
+        const {id} = req.params;
+        User.destroy({
+            where: {
+              id:id
+            }
+        }).then(()=>{
+            res.json({
+                'message':"delete user successfully"
+            })
+        }).catch(err=>{
+            console.log(err)
+        })
     }
 }
 module.exports = new UserController();
