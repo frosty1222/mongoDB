@@ -2,6 +2,8 @@ const { send } = require('express/lib/response');
 const setup = require('../models/User');
 const moment = require('moment');
 const Joi = require('joi');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 class UserController{
     async index(req,res){
         const User = await setup();
@@ -90,14 +92,90 @@ class UserController{
         });
     }
     // login method
-    async login(req,res){
-        const{email,pasword} = req.body;
-        const User = await setup();
+    async login(req, res) {
+    const { email, password } = req.body;
+    const User = await setup();
+    try {
+      const user = await User.findOne({
+        where: {
+          email: email,
+        },
+      });
+      if (!user) {
+        return res.status(401).json({
+          error: 'Invalid email or password',
+        });
+      }
+  
+      const match = await bcrypt.compare(password, user.password);
+  
+      if (!match) {
+        return res.status(401).json({
+          error: 'Invalid email or password',
+        });
+      }
+  
+      const token = jwt.sign(
+        { user: { id: user.id, name: user.name, email: user.email } },
+        'secret',
+        { expiresIn: '3h' }
+      );
+      return res.json({
+        success: true,
+        token: token,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        error: 'An error occurred while logging in',
+      });
     }
-    // sign up method
-    async signup(req,res){
-        const{name,email,password,createdAt,updatedAt} = req.body;
+  }
+  
+  // sign up method
+  async  signup(req, res) {
+    const { name, email, password } = req.body;
+  
+    const schema = Joi.object({
+      name: Joi.string().required(),
+      email: Joi.string().email().required(),
+      password: Joi.string().required(),
+      createdAt: Joi.date().iso().required(),
+      updatedAt: Joi.date().iso().optional().allow(null),
+    });
+  
+    // Validate and sanitize the request body
+    const isoDate = moment().toISOString();
+    req.body.createdAt = isoDate;
+    const bcryptPass = password;
+    const saltRounds = 10;
+    try {
+      const afterhashPass = await bcrypt.hash(bcryptPass, saltRounds);
+      const { error, value } = schema.validate(req.body, { stripUnknown: true });
+  
+      if (error) {
+        console.log('Error while validating request body', error);
+        return res.status(400).json({ error: error.details[0].message });
+      }
+  
+      // Create a new user using the validated and sanitized request body
+      const User = await setup();
+      const build = User.build({
+        name: name,
+        email: email,
+        password: afterhashPass,
+        createdAt: isoDate,
+        updatedAt: null,
+      });
+  
+      await build.save();
+      return res.json({ message: 'you have signed up successfully' });
+    } catch (error) {
+      console.log('Error while sign up', error);
+      return res.status(500).json({ error: 'Internal server error' });
     }
+  }
+  
    async deleteUser(req,res){
         const User = await setup();
         const {id} = req.params;
