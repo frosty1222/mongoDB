@@ -4,6 +4,7 @@ const moment = require('moment');
 const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const secret =process.env.SECRET_KEY;
 class UserController{
     async index(req,res){
         const User = await setup();
@@ -98,7 +99,7 @@ class UserController{
     try {
       const user = await User.findOne({
         where: {
-          email: email,
+          email: email
         },
       });
       if (!user) {
@@ -117,7 +118,7 @@ class UserController{
   
       const token = jwt.sign(
         { user: { id: user.id, name: user.name, email: user.email } },
-        'secret',
+         secret,
         { expiresIn: '3h' }
       );
       return res.json({

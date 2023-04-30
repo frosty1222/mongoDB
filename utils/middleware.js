@@ -1,5 +1,5 @@
 const decodeToken = require('./decodeToken');
-const secret = 'iloveyouforever';
+const secret = 'bekind asshole';
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
