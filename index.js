@@ -1,4 +1,5 @@
 const path = require('path');
+const dotenv = require('dotenv').config();
 const initUserModel = require('./models/User');
 const express = require('express');
 var cors = require('cors');

@@ -115,7 +115,7 @@ class UserController{
           error: 'Invalid email or password',
         });
       }
-  
+      console.log(secret)
       const token = jwt.sign(
         { user: { id: user.id, name: user.name, email: user.email } },
          secret,
