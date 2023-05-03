@@ -19,6 +19,14 @@ async function product() {
       sale_price:{
         type:DataTypes.DECIMAL,
         allowNull:true
+      },
+      createdAt:{
+        type:DataTypes.DATE,
+        allowNull:true,
+      },
+      updatedAt:{
+        type:DataTypes.DATE,
+        allowNull:true,
       }
     });
     return Product;

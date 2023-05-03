@@ -11,6 +11,14 @@ async function role_has_per() {
       permission_id:{
         type:DataTypes.BIGINT,
         allowNull:false
+      },
+      createdAt:{
+        type:DataTypes.DATE,
+        allowNull:true,
+      },
+      updatedAt:{
+        type:DataTypes.DATE,
+        allowNull:true,
       }
     });
     return RoleHasPer;

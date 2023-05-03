@@ -11,6 +11,14 @@ async function role() {
       user_id:{
         type:DataTypes.BIGINT,
         allowNull:false
+      },
+      createdAt:{
+        type:DataTypes.DATE,
+        allowNull:true,
+      },
+      updatedAt:{
+        type:DataTypes.DATE,
+        allowNull:true,
       }
     });
     return Role;

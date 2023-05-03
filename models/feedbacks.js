@@ -1,12 +1,24 @@
 const { connect } = require('../dbconnect');
 const Sequelize =require('sequelize');
 const DataTypes= Sequelize.DataTypes;
-async function permission() {
+async function feedback() {
     const sequelize = await connect();
-    const Permission = sequelize.define('permissions', {
+    const Feedback = sequelize.define('feedbacks', {
       name: {
         type: DataTypes.STRING,
         allowNull: false
+      },
+      note:{
+        type: DataTypes.TEXT,
+        allowNull: false
+      },
+      user_id:{
+         type:DataTypes.BIGINT,
+         allowNull:false,
+      },
+      product_id:{
+        type:DataTypes.BIGINT,
+        allowNull:false
       },
       createdAt:{
         type:DataTypes.DATE,
@@ -17,7 +29,7 @@ async function permission() {
         allowNull:true,
       }
     });
-    return Permission;
+    return Feedback;
   }
   
-module.exports = permission;
+module.exports = feedback;
