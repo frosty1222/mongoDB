@@ -3,14 +3,14 @@ const Sequelize =require('sequelize');
 const DataTypes= Sequelize.DataTypes;
 async function product() {
     const sequelize = await connect();
-    const Product = sequelize.define('roles', {
+    const Product = sequelize.define('products', {
       name: {
         type: DataTypes.STRING,
         allowNull: false
       },
       image:{
         type:DataTypes.STRING,
-        allowNull:true
+        allowNull:false
       },
       price:{
         type:DataTypes.DECIMAL,
