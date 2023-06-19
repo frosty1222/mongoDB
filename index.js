@@ -7,6 +7,11 @@ const initProductDescriptionModel = require('./models/ProductDescription');
 const initRoleHasPerModel = require('./models/RoleHasPer');
 const initPermissionModel = require('./models/Permission');
 const initFeedbackModel = require('./models/feedbacks');
+const initOrderModel = require('./models/order');
+const initCartModel = require('./models/cart');
+const initCartItemModel = require('./models/order_item');
+const initOrderItemModel = require('./models/cart');
+const initPaymentModel = require('./models/payment');
 const express = require('express');
 var cors = require('cors');
 const app = express();
@@ -29,8 +34,13 @@ async function setup() {
     const RoleHasPer = initRoleHasPerModel(sequelize);
     const Permission = initPermissionModel(sequelize);
     const Feedback = initFeedbackModel(sequelize);
+    const Order = initOrderModel(sequelize);
+    const Cart = initCartModel(sequelize);
+    const CartItem = initCartItemModel(sequelize);
+    const OrderItem = initOrderItemModel(sequelize);
+    const Payment = initPaymentModel(sequelize);
     await sequelize.sync();
-    return [User,Product,ProductDescription,Role,RoleHasPer,Permission,Feedback];
+    return [User,Product,ProductDescription,Role,RoleHasPer,Permission,Feedback,Order,Cart];
 }
 setup().then((User) => {
     console.log('User model has been set up.');
