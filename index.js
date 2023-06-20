@@ -12,6 +12,8 @@ const initCartModel = require('./models/cart');
 const initCartItemModel = require('./models/order_item');
 const initOrderItemModel = require('./models/cart');
 const initPaymentModel = require('./models/payment');
+const initTopCountModel = require('./models/topCount');
+const initWhislistModel = require('./models/whislists');
 const express = require('express');
 var cors = require('cors');
 const app = express();
@@ -39,8 +41,10 @@ async function setup() {
     const CartItem = initCartItemModel(sequelize);
     const OrderItem = initOrderItemModel(sequelize);
     const Payment = initPaymentModel(sequelize);
+    const TopCount = initTopCountModel(sequelize);
+    const Whislist = initWhislistModel(sequelize);
     await sequelize.sync();
-    return [User,Product,ProductDescription,Role,RoleHasPer,Permission,Feedback,Order,Cart];
+    return [User,Product,ProductDescription,Role,RoleHasPer,Permission,Feedback,Order,Cart,TopCount,CartItem,OrderItem,Payment,Whislist];
 }
 setup().then((User) => {
     console.log('User model has been set up.');
