@@ -146,6 +146,7 @@ class ShoppingController{
       }
       async showCartView(req, res) {
         const { user_id } = req.params;
+        const newCart = [];
         const Cart = await cart();
         const CartItem = await cartItem();
         const Product = await product();
@@ -163,8 +164,6 @@ class ShoppingController{
           });
           const products = await Product.findAll();
         
-          const newCart = [];
-        
           for (const product of products) {
             const cartItem = cartItems.find(item => item.product_id === product.id);
             if (cartItem) {
@@ -175,10 +174,8 @@ class ShoppingController{
             }
           }
         }
-      
-        console.log("cartItems", cartItems);
         res.json({
-          cart: newCart
+          cart: newCart 
         });
       }
       async placeOrder(req, res) {
