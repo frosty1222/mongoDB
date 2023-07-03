@@ -1,7 +1,7 @@
 const product = require('../models/Product');
 const multer = require('multer');
 const path = require('path');
-
+const convert = require('xml-js');
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const destinationPath = path.join(__dirname, '..', 'public', 'uploads');
@@ -148,6 +148,85 @@ class ProductController {
           })
       })
   }
+  async convertIntoXMLGet(req, res) {
+    const Product = await product();
+    const data = await Product.findAll(); // Await the promise to get the data
+    const options = {
+      compact: true,
+      ignoreComment: true,
+      spaces: 4
+    };
+    const xml = convert.js2xml({ products: { product: data } }, options);
+    res.set('Content-Type', 'application/xml');
+    res.send(xml);
+  }
+  async getProByIdXml(req, res) {
+    const Product = await product(); // Assuming `product()` is a function that returns a Promise for the product model
+    const { id } = req.params;
+    const data = await Product.findOne({
+      where: {
+        id: id
+      }
+    });
+  
+    const options = {
+      compact: true,
+      ignoreComment: true,
+      spaces: 4
+    };
+    const xml = convert.js2xml({ products: { product: data } }, options);
+    res.set('Content-Type', 'application/xml');
+    res.send(xml);
+  }
+  
+  async editProductXML(req, res){
+    const Product = await product();
+    const { name, price, sale_price} = req.body;
+    const edit  = Product.update({
+        name:name,
+        price:price,
+        sale_price:sale_price
+    },{
+      where:{
+        id:1
+      }
+    })
+    if(edit){
+      res.send('edit successfully');
+    }
+  }
+  async addProductXML(req, res) {
+    const Product = await product();
+    const { name, price, sale_price } = req.body;
+    const add = await Product.create({
+      name: name,
+      price: price,
+      sale_price: sale_price,
+      image: "image.jpg",
+      createdAt: null, // You may want to set the appropriate value here
+      updatedAt: null // You may want to set the appropriate value here
+    });
+  
+    if (add) {
+      res.send('Product added successfully');
+    }
+  }
+  async deleteProductXML(req, res) {
+    const Product = await product();
+        const {id} = req.params
+        Product.destroy({
+            where: {
+              id:id
+            }
+        }).then(()=>{
+            res.send({
+                'message':"delete product successfully"
+            })
+        }).catch(err=>{
+            console.log(err)
+        })
+  }
+  
 }
 
 module.exports = new ProductController();
