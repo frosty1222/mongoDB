@@ -5,18 +5,15 @@ const Joi = require('joi');
 let date = new Date();
 const isoDate = moment(date).toISOString();
 class PermissonController{
-    async index(req,res){
-        const Permission = await permission();
-        Permission.findAll().then(response=>{
-            res.json({
-                data:response
-            })
-        }).catch(err=>{
-            res.json({
-                err:err
-            })
-        })
-    }
+    async index(req, res) {
+        try {
+          const Permission = await permission();
+          const response = await Permission.findAll();
+          res.json({ data: response });
+        } catch (err) {
+          res.json({ err: err });
+        }
+      }      
     async addPer(req,res){
         const Permission = await permission();
         const { name } = req.body
@@ -55,6 +52,7 @@ class PermissonController{
         })
     }
     async getperById(req,res){
+        res.send("hello")
     }
 }
 module.exports = new PermissonController();

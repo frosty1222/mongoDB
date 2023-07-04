@@ -2,16 +2,16 @@ class FeedbackController{
     index(req,res){
 
     }
-    addFeedback(){
+    addFeedback(req,res){
 
     }
-    deleteFeedback(){
+    deleteFeedback(req,res){
 
     }
-    editFeedback(){
+    editFeedback(req,res){
 
     }
-    getFeedById(){
+    getFeedById(req,res){
         
     }
 } 
