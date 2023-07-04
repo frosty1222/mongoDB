@@ -1,7 +1,7 @@
 const { Sequelize } = require('sequelize');
 
 async function connect() {
-  const sequelize = new Sequelize('mysql://username:My$tr0ngP@ssw0rd@localhost:3306/node_');
+  const sequelize = new Sequelize('mysql://root:new_password@localhost:3306/node_');
   try {
     await sequelize.authenticate();
     console.log('Connection to database has been established successfully.');
