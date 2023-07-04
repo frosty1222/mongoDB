@@ -64,5 +64,26 @@ class RoleController{
             })
         })
     }
+    async editRole(req,res){
+        const Role = await role();
+        const {id} = req.params
+        const {name,user_id} = req.body;
+        Role.update({
+            name:name,
+            user_id:user_id,
+            createdAt:null,
+            updatedAt:null
+        },{
+            where:{
+                id:id
+            }
+        }).then(res=>{
+            return res.json({
+                "message":"updated successfully !"
+            })
+        }).catch(err=>{
+            console.log(err)
+        })
+    }
 }
 module.exports = new RoleController();

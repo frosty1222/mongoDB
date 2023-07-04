@@ -73,24 +73,23 @@ class UserController{
       let date = new Date();
       const isoDate = moment(date).toISOString();
       const {name,email,password,createdAt,updatedAt} = req.body;
-      console.log("hello")
-        User.update({
+       const Edit = User.update({
           name:name,
           email:email,
           password:password,
-          createdAt:null,
+          createdAt:createdAt,
           updatedAt:isoDate
         },{
             where: {
             id: id
             }
-        }).then(() => {
-           return res.json({
-            'message':"Record updated successfully!"
-           })
-        }).catch((error) => {
-            console.error('Error updating record: ', error);
         });
+        if(Edit){
+          res.json({
+            success:true,
+            message:"Record updated successfully!"
+           })
+        }
     }
     // login method
     async login(req, res) {

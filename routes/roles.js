@@ -6,4 +6,5 @@ router.get('/index',TokenCheckMiddleware,role_controller.index)
 router.post('/add-role',TokenCheckMiddleware,role_controller.addRole)
 router.delete('/role-delete/:id',TokenCheckMiddleware,role_controller.deleteRole)
 router.get('/get-data-by-id/:id',TokenCheckMiddleware,role_controller.getRoleById)
+router.put('/edit-role/:id',TokenCheckMiddleware,role_controller.editRole)
 module.exports = router;

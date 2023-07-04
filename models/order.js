@@ -1,24 +1,16 @@
 const { connect } = require('../dbconnect');
 const Sequelize =require('sequelize');
 const DataTypes= Sequelize.DataTypes;
-async function product() {
+async function order() {
     const sequelize = await connect();
-    const Product = sequelize.define('products', {
-      name: {
+    const Order = sequelize.define('orders', {
+      user_id: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      image:{
-        type:DataTypes.STRING,
+      total_amount:{
+        type:DataTypes.FLOAT,
         allowNull:false
-      },
-      price:{
-        type:DataTypes.DECIMAL,
-        allowNull:false
-      },
-      sale_price:{
-        type:DataTypes.DECIMAL,
-        allowNull:true
       },
       createdAt:{
         type:DataTypes.DATE,
@@ -29,7 +21,7 @@ async function product() {
         allowNull:true,
       }
     });
-    return Product;
+    return Order;
   }
   
-module.exports = product;
+module.exports = order;

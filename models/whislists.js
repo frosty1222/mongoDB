@@ -1,24 +1,20 @@
 const { connect } = require('../dbconnect');
 const Sequelize =require('sequelize');
 const DataTypes= Sequelize.DataTypes;
-async function product() {
+async function whislist() {
     const sequelize = await connect();
-    const Product = sequelize.define('products', {
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      image:{
-        type:DataTypes.STRING,
+    const Whislist = sequelize.define('whislists', {
+      cart_id:{
+        type:DataTypes.BIGINT,
         allowNull:false
       },
-      price:{
-        type:DataTypes.DECIMAL,
+      product_id:{
+        type:DataTypes.BIGINT,
         allowNull:false
       },
-      sale_price:{
-        type:DataTypes.DECIMAL,
-        allowNull:true
+      quantity:{
+         type:DataTypes.NUMBER,
+         allowNull:false,
       },
       createdAt:{
         type:DataTypes.DATE,
@@ -29,7 +25,7 @@ async function product() {
         allowNull:true,
       }
     });
-    return Product;
+    return Whislist;
   }
   
-module.exports = product;
+module.exports = whislist;
