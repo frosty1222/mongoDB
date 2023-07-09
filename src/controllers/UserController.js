@@ -1,5 +1,5 @@
 const { send } = require('express/lib/response');
-const setup = require('../models/User');
+const setup = require('../models/user');
 const moment = require('moment');
 const Joi = require('joi');
 const bcrypt = require('bcrypt');

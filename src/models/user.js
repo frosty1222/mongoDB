@@ -1,7 +1,7 @@
 const { connect } = require('../dbconnect');
 const Sequelize =require('sequelize');
 const DataTypes= Sequelize.DataTypes;
-async function setup() {
+async function user() {
     const sequelize = await connect();
     const User = sequelize.define('users', {
       name: {
@@ -29,4 +29,4 @@ async function setup() {
     return User;
   }
   
-module.exports = setup;
+module.exports = user;

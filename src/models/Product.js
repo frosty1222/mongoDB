@@ -1,7 +1,7 @@
 const { connect } = require('../dbconnect');
 const Sequelize =require('sequelize');
 const DataTypes= Sequelize.DataTypes;
-async function product() {
+async function Product() {
     const sequelize = await connect();
     const Product = sequelize.define('products', {
       name: {
@@ -32,4 +32,4 @@ async function product() {
     return Product;
   }
   
-module.exports = product;
+module.exports = Product;

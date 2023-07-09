@@ -1,24 +1,24 @@
 const path = require('path');
 const dotenv = require('dotenv').config();
-const initUserModel = require('./models/User');
-const initProductModel = require('./models/Product');
-const initRoleModel = require('./models/Role');
-const initProductDescriptionModel = require('./models/ProductDescription');
-const initRoleHasPerModel = require('./models/RoleHasPer');
-const initPermissionModel = require('./models/Permission');
-const initFeedbackModel = require('./models/feedbacks');
-const initOrderModel = require('./models/order');
-const initCartModel = require('./models/cart');
-const initCartItemModel = require('./models/order_item');
-const initOrderItemModel = require('./models/cart');
-const initPaymentModel = require('./models/payment');
-const initTopCountModel = require('./models/topCount');
-const initWhislistModel = require('./models/whislists');
+const initProductModel = require('./src/models/Product');
+const initRoleModel = require('./src/models/Role');
+const initProductDescriptionModel = require('./src/models/ProductDescription');
+const initRoleHasPerModel = require('./src/models/RoleHasPer');
+const initPermissionModel = require('./src/models/Permission');
+const initFeedbackModel = require('./src/models/feedbacks');
+const initOrderModel = require('./src/models/order');
+const initCartModel = require('./src/models/cart');
+const initCartItemModel = require('./src/models/order_item');
+const initOrderItemModel = require('./src/models/cart');
+const initPaymentModel = require('./src/models/payment');
+const initTopCountModel = require('./src/models/topCount');
+const initWhislistModel = require('./src/models/whislists');
+const initUserModel = require('./src/models/user');
 const express = require('express');
 var cors = require('cors');
 const app = express();
-const db =require('./dbconnect');
-const route = require('./routes');
+const db =require('./src/dbconnect');
+const route = require('./src/routes');
 app.use(express.json());
 app.use(
     express.urlencoded({
@@ -44,7 +44,7 @@ async function setup() {
     const TopCount = initTopCountModel(sequelize);
     const Whislist = initWhislistModel(sequelize);
     await sequelize.sync();
-    return [User,Product,ProductDescription,Role,RoleHasPer,Permission,Feedback,Order,Cart,TopCount,CartItem,OrderItem,Payment,Whislist];
+    return [CartItem,User,Product,ProductDescription,Role,RoleHasPer,Permission,Feedback,Order,Cart,TopCount,OrderItem,Payment,Whislist];
 }
 setup().then((User) => {
     console.log('User model has been set up.');
@@ -56,6 +56,7 @@ app.use(cors({
 }));
 app.use(express.static('public'));
 route(app);
-app.listen(3002, () => {
-    console.log(`Server Started at ${3002}`)
+const node_port = process.env.PORT;
+app.listen(node_port, () => {
+    console.log(`Server Started at ${node_port}`)
 })
