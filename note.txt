@@ -1,1 +1,4 @@
 npm install util
+sudo docker rmi $(sudo docker images -aq) // remove all image 
+sudo docker rm $(sudo docker ps -aq) // remove all container
+sudo docker logs + docker_container_id // to see docker container logs 
